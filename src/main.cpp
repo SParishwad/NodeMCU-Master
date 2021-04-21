@@ -76,7 +76,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
                 else {
                     Serial.println("  Acknowledge but no data ");
                 }
-                updateMessage();
+                //updateMessage();
             }
             else{Serial.println("Tx Failed");}
             break;
@@ -127,8 +127,6 @@ void setup() {
 
 void loop() {
   webSocket.loop();
-  if(newData){webSocket.broadcastTXT()}     // BroadcastTXT is used to transmit data to all the WebSocket Clients. 
+  //if(newData){webSocket.broadcastTXT();}     // BroadcastTXT is used to transmit data to all the WebSocket Clients. 
   server.handleClient();
 }
-
-void updateMessage(){}

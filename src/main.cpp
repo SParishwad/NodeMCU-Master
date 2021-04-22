@@ -26,7 +26,9 @@ const byte slaveAddress[5] = {'R','x','A','A','A'};
 bool newData = false;
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
 
-
+unsigned long previousMillis = 0;
+const long interval = 1000; 
+int ledState = LOW;
 
 ESP8266WebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -86,7 +88,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
 
 void setup() {
   Serial.begin(115200);
-
+  
+  pinMode(LED_BUILTIN, OUTPUT);
+  
   // Starting Access Point (NodeMCU)
   Serial.println("Starting AP...");
   WiFi.mode(WIFI_AP);
@@ -127,7 +131,14 @@ void setup() {
 }
 
 void loop() {
-  webSocket.loop();
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
+        if (ledState == LOW) { ledState = HIGH; } 
+        else { ledState = LOW; }
+        digitalWrite(LED_BUILTIN, ledState);
+    }
+    webSocket.loop();
+    server.handleClient();
   //if(newData){webSocket.broadcastTXT();}     // BroadcastTXT is used to transmit data to all the WebSocket Clients. 
-  server.handleClient();
 }

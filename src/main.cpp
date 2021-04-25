@@ -26,9 +26,9 @@ const byte slaveAddress[5] = {'R','x','A','A','A'};
 bool newData = false;
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
 
-unsigned long previousMillis = 0;
+/*unsigned long previousMillis = 0;
 const long interval = 1000; 
-int ledState = LOW;
+int ledState = LOW;*/
 
 ESP8266WebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -71,7 +71,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
             Serial.print("Data Sent ");
             Serial.printf("%s", payload);
             Serial.println();
-            if(rslt){               // Everything in this bracket is part of a two way radio
+            /*if(rslt){               // Everything in this bracket is part of a two way radio
                 if ( radio.isAckPayloadAvailable() ) {
                     radio.read(&ackData, sizeof(ackData));
                     newData = true;
@@ -81,7 +81,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
                 }
                 //updateMessage();
             }
-            else{Serial.println("Tx Failed");}
+            else{Serial.println("Tx Failed");}*/
             break;
     }
 }
@@ -131,13 +131,13 @@ void setup() {
 }
 
 void loop() {
-    unsigned long currentMillis = millis();
+    /*unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
         if (ledState == LOW) { ledState = HIGH; } 
         else { ledState = LOW; }
         digitalWrite(LED_BUILTIN, ledState);
-    }
+    }*/
     webSocket.loop();
     server.handleClient();
   //if(newData){webSocket.broadcastTXT();}     // BroadcastTXT is used to transmit data to all the WebSocket Clients. 

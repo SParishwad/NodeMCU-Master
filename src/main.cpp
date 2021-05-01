@@ -12,14 +12,16 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <Hash.h>
-#include "printf.h"
+#include <printf.h>
 
-#include "nRF24L01.h"
-#include "RF24.h"
+#include <RF24_config.h>
+#include <nRF24L01.h>
+#include <RF24.h>
 #define CE_PIN D8
 #define CSN_PIN D4
 int ackData[2] = {-1, -1}; // to hold the two values coming from the slave
 const byte addresses[][6] = {"00001", "00002"};
+//const byte addresses[6] = "00001";
 bool newData = false;
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
 
@@ -121,8 +123,8 @@ void setup()
     //Radio Communication (nRF24L01+LA+PNA)
     Serial.println("Radio Communnication Starting...");
     radio.begin();
-    radio.openWritingPipe(addresses[1]);    // 00001
-    radio.openReadingPipe(1, addresses[0]); // 00002
+    radio.openWritingPipe(addresses[0]); // 00001    // This is checked
+    //radio.openReadingPipe(1, addresses[1]); // 00002   // This is checked
     radio.setPALevel(RF24_PA_MIN);
     Serial.println("Radio Communication Started!");
 
@@ -133,18 +135,14 @@ void setup()
 
 void loop()
 {
-    /*unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval) {
-        previousMillis = currentMillis;
-        if (ledState == LOW) { ledState = HIGH; } 
-        else { ledState = LOW; }
-        digitalWrite(LED_BUILTIN, ledState);
-    }*/
+    //const char text[] = "Hello World";
+    //radio.write(&text, sizeof(text));
+    //delay(1000);
     webSocket.loop();
     server.handleClient();
-    radio.startListening();
-    if (radio.available()){
+    //radio.startListening();
+    /*if (radio.available()){
         
-    }
+    }*/
     //if(newData){webSocket.broadcastTXT();}     // BroadcastTXT is used to transmit data to all the WebSocket Clients.
 }

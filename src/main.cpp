@@ -14,6 +14,11 @@
 #include <Hash.h>
 #include <printf.h>
 
+/**
+ * Node MCU Radio Comunication
+ * CE 10; CSN 9; SCK 13; MISO 12; MOSI 11;
+ */ 
+/*******************************************************************/
 #include <RF24_config.h>
 #include <nRF24L01.h>
 #include <RF24.h>
@@ -22,12 +27,15 @@
 int ackData[2] = {-1, -1}; // to hold the two values coming from the slave
 const byte addresses[][6] = {"00001", "00002"};
 //const byte addresses[6] = "00001";
+char dataReceived[32] = {0};    // this must match dataToSend in the TX
 bool newData = false;
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
+/*******************************************************************/
 
 /*unsigned long previousMillis = 0;
 const long interval = 1000; 
 int ledState = LOW;*/
+
 
 ESP8266WebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -124,8 +132,9 @@ void setup()
     Serial.println("Radio Communnication Starting...");
     radio.begin();
     radio.openWritingPipe(addresses[0]); // 00001    // This is checked
-    //radio.openReadingPipe(1, addresses[1]); // 00002   // This is checked
+    radio.openReadingPipe(1, addresses[1]); // 00002   // This is checked
     radio.setPALevel(RF24_PA_MIN);
+    delay(1000);
     Serial.println("Radio Communication Started!");
 
     //Add service to MDNS
@@ -140,9 +149,10 @@ void loop()
     //delay(1000);
     webSocket.loop();
     server.handleClient();
-    //radio.startListening();
-    /*if (radio.available()){
-        
-    }*/
+    radio.startListening();
+    if (radio.available()){
+        radio.read(&dataReceived, sizeof(dataReceived));
+        Serial.print(dataReceived);
+    }
     //if(newData){webSocket.broadcastTXT();}     // BroadcastTXT is used to transmit data to all the WebSocket Clients.
 }

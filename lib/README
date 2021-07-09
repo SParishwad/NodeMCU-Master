@@ -1,9 +1,20 @@
+# NodeMCU as a master for controlling a Model Airplane
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into executable file.
+This code is a part of a larger project. Ideally it can be used in combination with the "Remote Controller" Android App 
+to controll any remote controlled vehicle or plane or drone. 
 
-The source code of each library should be placed in a an own separate directory
-("lib/your_library_name/[here are source files]").
+The Remote Controller Android App uses WebSockets to communicate with an android device and receives the controller signals 
+from two joysticks. 
+
+The use of WebSockets was essential, in order to continuously send and receive the control signals without having to open/close an 
+https connection using the Get & Set methods. Websockets are a way for a server and client (server and webpage) to talk to each other 
+freely and either side can send data at any time (asynchronous) without being asked for it.
+
+## A short introduction to Websockets and a comprison with HTTP protocol
+
+In comparison to the HTTP which is what is used in most of the NodeMCU Tutorials online use, 
+
+
 
 For example, see a structure of the following two libraries `Foo` and `Bar`:
 

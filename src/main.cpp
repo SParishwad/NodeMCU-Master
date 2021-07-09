@@ -25,14 +25,9 @@
 const byte address[6] = "00001";
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
 
-char dataToSend[10] = "Message 0";
-char txNum = '0';
-int imuData[2] = {-1, -1}; // to hold the two values coming from the slave
+int imuData[4] = {-1, -1, -1, -1};//, -1, -1, -1, -1 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // to hold the two values coming from the slave
 bool newData = false;
 
-unsigned long currentMillis;
-unsigned long prevMillis;
-unsigned long txIntervalMillis = 500; // send once per second
 /*******************************************************************/
 
 /*******************************************************************/
@@ -160,7 +155,43 @@ void showData()
         Serial.print("  Acknowledge data ");
         Serial.print(imuData[0]);
         Serial.print(", ");
-        Serial.println(imuData[1]);
+        Serial.print(imuData[1]);
+        Serial.print(", ");
+        Serial.print(imuData[2]);
+        Serial.print(", ");
+        Serial.println(imuData[3]);
+        /*Serial.print(", ");
+        Serial.println(imuData[4]);
+        Serial.print(", ");
+        Serial.print(imuData[5]);
+        Serial.print(", ");
+        Serial.print(imuData[6]);
+        Serial.print(", ");
+        Serial.println(imuData[7]);
+        Serial.print(", ");
+        Serial.print(imuData[8]);
+        Serial.print(", ");
+        Serial.print(imuData[9]);
+        Serial.print(", ");
+        Serial.print(imuData[10]);
+        Serial.print(", ");
+        Serial.print(imuData[11]);
+        Serial.print(", ");
+        Serial.print(imuData[12]);
+        Serial.print(", ");
+        Serial.print(imuData[13]);
+        Serial.print(", ");
+        Serial.print(imuData[14]);
+        Serial.print(", ");
+        Serial.print(imuData[15]);
+        Serial.print(", ");
+        Serial.print(imuData[16]);
+        Serial.print(", ");
+        Serial.print(imuData[17]);
+        Serial.print(", ");
+        Serial.print(imuData[18]);
+        Serial.print(", ");
+        Serial.println(imuData[19]);*/
         Serial.println();
         newData = false;
     }

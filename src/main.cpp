@@ -20,8 +20,8 @@
 #define CE_PIN D8
 #define CSN_PIN D4
 int ackData[2] = {-1, -1}; // to hold the two values coming from the slave
-const byte addresses[][6] = {"00001", "00002"};
-//const byte addresses[6] = "00001";
+//const byte addresses[][6] = {"00001", "00002"};
+const byte addresses[6] = "00001";
 bool newData = false;
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
 
@@ -123,7 +123,7 @@ void setup()
     //Radio Communication (nRF24L01+LA+PNA)
     Serial.println("Radio Communnication Starting...");
     radio.begin();
-    radio.openWritingPipe(addresses[0]); // 00001    // This is checked
+    radio.openWritingPipe(addresses); // 00001    // This is checked
     //radio.openReadingPipe(1, addresses[1]); // 00002   // This is checked
     radio.setPALevel(RF24_PA_MIN);
     Serial.println("Radio Communication Started!");
